@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>FORM INPUT</strong> Data Buku</h3>
+            </div>
+		<div class="panel-body">
+				<div class="row" style="width:100%">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form  parsley-validate id="form_input_{$acak}" method="post" class="form-horizontal" url="{$host}backoffice-simpan/tbl_produk/{$sts|default:'add'}">
+							<input type="hidden" name="id" id="id_{$acak}" value="{$data.id|default:''}">
+							{include file="backend/template/text.html" label="Tingkatan" type="select" name="cl_tingkatan_id" id_na="cl_tingkatan_id" data_combo=$tingkat class="validasi" id_combo=$data.cl_tingkatan_id|default:'' }
+							{include file="backend/template/text.html" label="Kategori" type="select" name="cl_kategori_id" id_na="cl_kategori_id" data_combo=$kat class="validasi" id_combo=$data.cl_kategori_id|default:''}
+							{include file="backend/template/text.html" label="Judul Produk" type="text" name="judul_produk" id_na="judul_produk" class="validasi" value=$data.judul_produk|default:''}
+							{include file="backend/template/text.html" label="Desc. Produk" type="textarea" name="deskripsi_produk" id_na="deskripsi_buku" value=$data.deskripsi_produk|default:''}
+							{include file="backend/template/text.html" label="Berat" type="text" name="berat" id_na="berat" class="validasi" value=$data.berat|default:''}
+							{include file="backend/template/text.html" label="Dimensi" type="text" name="dimensi" id_na="dimensi" class="validasi" value=$data.dimensi|default:''}
+							{include file="backend/template/text.html" label="Harga Zona 1" type="text" name="harga_zona_1" id_na="harga_zona_1" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_zona_1|default:''}
+							{include file="backend/template/text.html" label="Harga Zona 2" type="text" name="harga_zona_2" id_na="harga_zona_2" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_zona_2|default:''}
+							{include file="backend/template/text.html" label="Harga Zona 3" type="text" name="harga_zona_3" id_na="harga_zona_3" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_zona_3|default:''}
+							{include file="backend/template/text.html" label="Harga Zona 4" type="text" name="harga_zona_4" id_na="harga_zona_4" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_zona_4|default:''}
+							{include file="backend/template/text.html" label="Harga Zona 5" type="text" name="harga_zona_5" id_na="harga_zona_5" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_zona_5|default:''}
+							{include file="backend/template/text.html" label="Harga Pemerintah Zona 1" type="text" name="harga_pemerintah_zona_1" id_na="harga_pemerintah_zona_1" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_pemerintah_zona_1|default:''}
+							{include file="backend/template/text.html" label="Harga Pemerintah Zona 2" type="text" name="harga_pemerintah_zona_2" id_na="harga_pemerintah_zona_2" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_pemerintah_zona_2|default:''}
+							{include file="backend/template/text.html" label="Harga Pemerintah Zona 3" type="text" name="harga_pemerintah_zona_3" id_na="harga_pemerintah_zona_3" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_pemerintah_zona_3|default:''}
+							{include file="backend/template/text.html" label="Harga Pemerintah Zona 4" type="text" name="harga_pemerintah_zona_4" id_na="harga_pemerintah_zona_4" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_pemerintah_zona_4|default:''}
+							{include file="backend/template/text.html" label="Harga Pemerintah Zona 5" type="text" name="harga_pemerintah_zona_5" id_na="harga_pemerintah_zona_5" class='angka validasi' style="height:34px;font-size: 13px;padding: 8px 12px;" value=$data.harga_pemerintah_zona_5|default:''}
+							{include file="backend/template/upload.html" label="Upload Gambar" name="foto_buku" id_na="foto_buku" mod="buku" id_batal="batal_buku_{$acak}" msg="Data Input Produk Sudah Tersimpan"}
+							
+							{*
+							{include file="backend/template/text.html" label="Kelas" type="select" name="cl_kelas_id" id_na="cl_kelas_id" class="validasi"}
+							{include file="backend/template/text.html" label="Group Sekolah" type="select" name="cl_group_sekolah" id_na="cl_group_sekolah" data_combo=$group class="validasi" id_combo=$data.cl_group_sekolah|default:''}
+							{include file="backend/template/text.html" label="Edisi" type="select" name="cl_edisi_id" id_na="cl_edisi_id" data_combo=$edisi class="validasi" id_combo=$data.cl_edisi_id|default:''}
+							{include file="backend/template/text.html" label="Kode Buku" type="text" name="kode_buku" id_na="kode_buku" class="validasi" value=$data.kode_buku|default:''}
+							{include file="backend/template/text.html" label="ISBN" type="text" name="isbn" id_na="isbn" class="validasi" value=$data.isbn|default:''}							
+							{include file="backend/template/text.html" label="Penerbit" type="text" name="penerbit" id_na="penerbit" class="validasi" value=$data.penerbit|default:''}							
+							*}
+							
+							{if $sts eq 'edit'}
+							<div class="form-group" >
+								<label class="col-sm-2 control-label"></label>
+								<div class="col-sm-8">
+									<div class="row">
+									{foreach from=$foto item=i}
+										  <div class="col-xs-6 col-md-3" id="list_{$acak}_{$i.id}">
+											<div class="thumbnail">
+											  <img src="{$host}__repository/produk/{$i.foto_produk|default:''}" alt="...">
+											   <div class="caption">
+												<center>
+												<a href="javascript:void(0);" onclick="hapus_file('foto_produk',{$i.id},'list_{$acak}_{$i.id}')" class="btn btn-primary" role="button">Hapus</a>
+												</center>
+											   </div>
+											</div>
+										  </div>
+									{/foreach}
+									</div>
+								</div>
+							</div>
+							{/if}
+							<div class="col-sm-7 col-sm-offset-3">
+								<div class="pull-right">
+									{include file="backend/template/button.html" text="Simpan" id_na="simpan_buku"}
+									{include file="backend/template/button.html" text="Batal" style_btn="btn-default" id_na="batal_buku" }
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var upl_vid=0;
+	gen_editor('#deskripsi_buku{$acak}');
+	$(".validasi").validatebox({ required:true }); 
+	$('.angka').numberbox({
+		min:0,
+		precision:2,
+		groupSeparator:','
+	});
+
+	$('#tingkatan{$acak}').change(function(){
+		//$('#cl_kelas_id{$acak}').empty();
+		//fillCombo(host+'backoffice-combo','cl_kelas_id{$acak}','cl_kelas',$(this).val(),'{$data.cl_kelas_id|default:''}');
+	});
+	
+	$('#batal_buku_{$acak}').bind('click',function(){
+		tinyMCE.get("deskripsi_buku{$acak}").save();
+		$('#grid_nya_{$mod}').show();
+		$('#detil_nya_{$mod}').hide();
+	});
+	$('#simpan_buku_{$acak}').bind('click',function(){
+		tinyMCE.get("deskripsi_buku{$acak}").save();
+		if ($('#form_input_{$acak}').form('validate')){
+			submit_form('form_input_{$acak}',function(r){
+				console.log(r)
+				var js=JSON.parse(r);
+				if(js.msg==1){
+					if(uploadObj_foto_buku_{$acak}.getFileCount() > 0){
+						uploadObj_foto_buku_{$acak}.update({ dynamicFormData:function()
+						{
+							var data ={ tbl_buku_id:js.data,
+										mod:'tbl_foto_produk',
+										tingkat:$("#cl_tingkatan_id{$acak} option:selected").text(), 
+										kat:$("#cl_kategori_id{$acak} option:selected").text()
+									  }
+							return data;
+						} 
+						});
+						uploadObj_foto_buku_{$acak}.startUpload();
+					}else{
+						$.messager.alert('Aldeaz Back-Office','Data Input Produk Sudah Tersimpan','info');
+						$('#batal_buku_{$acak}').trigger('click');
+						grid_nya.datagrid('reload');
+					}
+				}else{
+					//console.log(r);
+					$.messager.alert('Aldeaz Back-Office',"Tdak Dapat Menyimpan Data",'error');
+				}
+			});
+		}else{
+			$.messager.alert('Aldeaz Back-Office',"Isi Data Yang Kosong ",'info');
+		} 
+	
+		/* simpan_form('form_input_{$acak}','batal_buku_{$acak}','Data Input Buku Sudah Tersimpan'); */
+	});
+	{*
+	{if $sts eq 'edit'}
+		//$('#tingkatan{$acak}').trigger('change');
+	{/if}
+	*}
+</script>

@@ -1,0 +1,104 @@
+ <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Data Detil</strong> Invoice Order</h3>
+            </div>
+			<div class="panel-body">
+				<div style="padding:10px;font-weight:bold;" >
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">NO. Order/Invoice</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">{$data.header.no_order|default:'-'}</div>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">Tgl. Order/Invoice</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">{$data.header.tgl_order|default:'-'}</div>
+					</div>
+					
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">{if $data.header.jenis_pembeli eq 'SEKOLAH'} Nama Sekolah {else} Nama Lengkap{/if}</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">{if $data.header.jenis_pembeli eq 'SEKOLAH'}{$data.header.nama_sekolah|default:'-'}{else}{$data.header.nama_lengkap|default:'-'}{/if}</div>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">Zona</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">{$data.header.zona|default:'-'}</div>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">SubTotal & Pajak</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">({$data.header.sub_total|number_format:2:',':'.'|default:'-'})&nbsp;-&nbsp;({$data.header.pajak|number_format:2:',':'.'|default:'-'})</div>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-6" style="text-align:right;">GrandTotal</div>
+						<div class="col-md-1">:</div>
+						<div class="col-md-5">{$data.header.grand_total|number_format:2:',':'.'|default:'-'}</div>
+					</div>
+				</div>
+				<br>
+				<hr>
+				<div style="padding:10px;">
+					<table class="table table-hover">
+					<thead>
+					<tr>
+						<th style="text-align:left;">No.</th>
+						<th>Judul Buku</th>
+						<th style="text-align:right;">Harga (Sesuai Zona {$data.header.zona})</th>
+						<th style="text-align:right;">Jumlah/Qty</th>
+						<th style="text-align:right;">Total</th>
+					</tr>
+					</thead>
+					<tbody>
+					{assign var=tot_qty value=0}
+					{assign var=tot_harga value=0}
+					{assign var=tot_pajak value=0}
+					{assign var=grand_tot value=0}
+					{foreach from=$data.detil item=i name=x}
+					{assign var=tot_qty value=$tot_qty+$i.qty}
+					{assign var=tot_harga value=$tot_harga+$i.total}
+					<tr>
+						<td >{$smarty.foreach.x.iteration}</td>
+						<td>{$i.judul_produk|default:'-'}</td>
+						<td align="right">Rp. {$i.harga|number_format:2:',':'.'|default:'-'}</th>
+						<td align="right">{$i.qty|number_format:2:',':'.'|default:'-'}</td>
+						<td align="right">Rp.{$i.total|number_format:2:',':'.'|default:'-'}</td>
+					</tr>
+					{/foreach}
+					</tbody>
+					<tfoot>
+					<tr style="font-weight:bold;">
+						<td colspan="3" align="center">SUB TOTAL</td>
+						<td align="right">{$tot_qty|number_format:2:',':'.'|default:'-'}</td>
+						<td align="right">Rp.{$tot_harga|number_format:2:',':'.'|default:'-'}</td>
+					</tr>
+					<tr style="font-weight:bold;">
+						<td colspan="3" align="center">PAJAK (0%)</td>
+						<td align="center">&nbsp;</td>
+						<td align="right">Rp. 0{* ($tot_harga * 0.1)|number_format:2:',':'.'|default:'-' *}</td>
+					</tr>
+					<tr style="font-weight:bold;">
+						<td colspan="3" align="center">GRAND TOTAL</td>
+						<td align="center">&nbsp;</td>
+						{* <td align="right">Rp.{(($tot_harga * 0.1) + $tot_harga)|number_format:2:',':'.'|default:'-'}</td> *}
+						<td align="right">Rp.{$tot_harga|number_format:2:',':'.'|default:'-'}</td>
+					</tr>
+					</tfoot>
+					</table>
+				</div>
+			</div>
+		<div class="col-sm-8 col-sm-offset-3" style="margin-top:10px;">
+			<div class="pull-right">
+				{include file="backend/template/button.html" text="Kembali Ke Grid" style_btn="btn-default" id_na="batal" }
+			</div>
+		</div>
+	</div>
+	
+</div>
+<script>
+$('#batal_{$acak}').bind('click',function(){
+	$('#grid_nya_{$mod}').show();
+	$('#detil_nya_{$mod}').hide();
+});
+</script>

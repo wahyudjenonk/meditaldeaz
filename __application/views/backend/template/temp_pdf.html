@@ -1,0 +1,208 @@
+{literal}
+<style type="text/css">
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+{/literal}
+{if $mod eq 'cetak_bast'}
+<div style="float:left;width:100%;">
+<p style="font-family:helvetica,arial,verdana,sans; font-size:12px;">Pada hari ini, {$param.hari|default:'-'} tanggal {$param.tgl_text|default:'-'} bulan {$param.bulan|default:'-'} tahun {$param.tahun|default:'-'},</p>
+<p style="font-family:helvetica,arial,verdana,sans; font-size:12px;">yang bertanda tangan di bawah ini:</p>
+ 
+<table width="100%" style="font-family:helvetica,arial,verdana,sans; font-size:12px;">
+	<tr>
+		<td>1.</td>
+		<td>Nama</td>
+		<td>:</td>
+		<td>Hardi</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Jabatan</td>
+		<td>:</td>
+		<td>Supervisor</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Perusahaan</td>
+		<td>:</td>
+		<td>CV. Aldeaz</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Alamat</td>
+		<td>:</td>
+		<td>Jl. Depok Utama</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="3">Selanjutnya disebut sebagai PIHAK PERTAMA</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td>2.</td>
+		<td>Nama</td>
+		<td>:</td>
+		<td>{$data.header.nama_lengkap|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>NIP</td>
+		<td>:</td>
+		<td>{$data.header.nip|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Jabatan</td>
+		<td>:</td>
+		<td>{$data.header.jabatan|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Nama Sekolah</td>
+		<td>:</td>
+		<td>{$data.header.nama_sekolah|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>NPSN</td>
+		<td>:</td>
+		<td>{$data.header.npsn|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Alamat</td>
+		<td>:</td>
+		<td>{$data.header.alamat|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Telepon</td>
+		<td>:</td>
+		<td>{$data.header.tlp|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Handphone</td>
+		<td>:</td>
+		<td>{$data.header.no_hp|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Email</td>
+		<td>:</td>
+		<td>{$data.header.email|default:'-'}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="3">Selanjutnya disebut sebagai PIHAK KEDUA</td>
+	</tr>
+</table>
+<p style="font-family:helvetica,arial,verdana,sans; font-size:12px;">Selanjutnya berdasarkan Surat Pemesanan Buku yang telah diterima nomor {$data.header.no_order|default:'-'}  Tanggal {$data.header.tgl_order|default:'-'} </p>
+<p style="font-family:helvetica,arial,verdana,sans; font-size:12px;">PIHAK PERTAMA telah menyerahkan buku, dan PIHAK KEDUA telah menerima Buku dimaksud sebagai berikut:</p>
+
+</div>
+<br>
+<br>
+<div style="float:left;width:100%;margin-top:20px;">
+	<table class="gridtable" style="font-family:helvetica,arial,verdana,sans; font-size:12px;">
+		<tr style="border:1px solid black;">
+		  <th style="border-bottom:1px solid black;" width="5%" rowspan="2">No.</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Judul Buku</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Kelas</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Jenis(S/G)</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Oplah Dipesan</th>
+		  <th style="border-bottom:1px solid black;" width="35%" colspan="3">Hasil Pemeriksaan</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Harga</th>
+		  <th style="border-bottom:1px solid black;" rowspan="2">Total</th>
+		</tr>
+		<tr style="border:1px solid black;">
+		  <th style="border-bottom:1px solid black;" width="60%">Baik</th>
+		  <th style="border-bottom:1px solid black;" width="35%">Rusak</th>
+		  <th style="border-bottom:1px solid black;" width="35%">Kurang</th>
+		</tr>
+		{assign var=no_na value=0} 
+		{assign var=tot_qty value=0}
+		{assign var=tot_harga value=0}
+		{foreach from=$data.detil item=i}
+		{assign var=tot_qty value=$tot_qty+$i.qty}
+		{assign var=tot_harga value=$tot_harga+$i.total}
+		<tr>
+			<td  align="center">{assign var=no_na value=$no_na+1}{$no_na}</td>
+			<td align="left">{$i.judul_buku|default:'-'}</td>
+			<td align="left">{$i.kelas|default:'-'}</td>
+			<td align="left">{$i.nama_group|default:'-'}</td>
+			<td align="right">{$i.qty|number_format:2:',':'.'|default:'-'}</td>
+			<td align="left">&nbsp;</td>
+			<td align="left">&nbsp;</td>
+			<td align="left">&nbsp;</td>
+			<td align="right">Rp.{$i.harga|number_format:2:',':'.'|default:'-'}</td>
+			<td align="right">Rp.{$i.total|number_format:2:',':'.'|default:'-'}</td>
+		</tr>
+		{/foreach}
+			<tr style="font-weight:bold;background:#DEDEDE">
+				<td colspan="3" align="center" colspan="4">TOTAL</td>
+				<td align="right">{$tot_qty|number_format:2:',':'.'|default:'-'}</td>
+				<td align="right" colspan="4">&nbsp;</td>
+				<td align="right">Rp.{$tot_harga|number_format:2:',':'.'|default:'-'}</td>
+			</tr>
+		
+	</table>
+</div>
+<p style="font-family:helvetica,arial,verdana,sans; font-size:12px;">
+	Demikian Berita Acara Serah Terima ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya
+</p>
+<table width="100%" style="font-family:helvetica,arial,verdana,sans; font-size:12px;">
+	<tr>
+		<td width="50%" align="center">Pihak Kedua,</td>
+		<td width="50%" align="center">Pihak Pertama,</td>
+	</tr>
+	<tr>
+		<td width="50%">&nbsp;</td>
+		<td width="50%">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%">&nbsp;</td>
+		<td width="50%">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%">&nbsp;</td>
+		<td width="50%">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%">&nbsp;</td>
+		<td width="50%">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%" align="center"><i><u>{$data.header.nama_lengkap|default:'-'}</u></i></td>
+		<td width="50%" align="center"><i><u>HADI GUNOWO</u></i></td>
+	</tr>
+	<tr>
+		<td width="50%" align="center"><i>({$data.header.jabatan|default:'-'})</i></td>
+		<td width="50%" align="center"><i>(DIREKTUR)</i></td>
+	</tr>
+</table>
+{/if}

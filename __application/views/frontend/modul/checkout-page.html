@@ -1,0 +1,159 @@
+<div class="page-content">
+	<div class="contact-us-area padding100 bg-white-2">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="contact-form-area">
+						<div class="form-wrap">
+							<div class="" style='display:inline !important;'>
+								<legend>Keranjang Belanja Anda</legend>
+								<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+									  <tr style='background:#F1EDED;'>
+										<th width='20%' style='text-align:center !important;'>Gambar Produk</th>
+										<th width='30%' style='text-align:center !important;'>Nama Produk</th>
+										<th width='10%' style='text-align:center !important;'>Harga</th>
+										<th width='10%' style='text-align:center !important;'>Quantity</th>
+										<th width='10%' style='text-align:center !important;'>Total</th>
+										<th width='10%' style='text-align:center !important;'>::</th>
+									  </tr>
+									</thead>
+									<tbody id='content-keranjang-checkout'>
+										{if $data_cart}
+											{foreach from=$data_cart item=rows}
+												<tr>
+													<td style='text-align:center !important;'><img src="{$rows.foto_produk}" style='width:55px;height:65px;'></td>
+													<td>{$rows.name}</td>
+													<td>{$rows.price}</td>
+													<td><input type='text' id='qrt_{$rows.rowid}' style='width:80px !important;' value='{$rows.qty}' /> </td>
+													<td>{$rows.subtotal}</td>
+													<td style='text-align:center !important;'>
+														<a href="javascript:void(0);" onClick="forcart('apdeting','{$rows.rowid}', 'ck')"><i class="fa fa-refresh"></i></a>
+														<a href="javascript:void(0);" onClick="forcart('delting','{$rows.rowid}', 'ck')"><i class="fa fa-times"></i></a>						
+													</td>
+												</tr>
+											{/foreach}
+										{else}
+											<tr>
+												<td align='center' colspan='6'>-- Tidak Ada Data --</td>
+											</tr>
+										{/if}
+									</tbody>
+								</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{if $data_cart}
+			<div class='row'>
+				<div class="col-md-12">
+					<div class="contact-form-area">
+						<div class="form-wrap">
+							<legend>Isi Data Sekolah / Data Pembeli Umum</legend>
+							<ul class="nav nav-tabs">
+								 <li class="active"><a data-toggle="tab" href="#sekolah">Sekolah</a></li>
+								 <li><a data-toggle="tab" href="#umum">Umum</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="sekolah" class="tab-pane fade in active">
+									<br/>
+									<form id='frmskul' url="{$host}submit-transaksi" method='post' enctype="multipart/form-data" class="form-inline">
+										<input type='hidden' name='editstatus' value='edxxxi'>
+										<input type='hidden' name='typ' value='skull'>
+										<div class="form-inner" style='min-height:300px !important;'>
+											<div class="single-input one-half left">
+												<label>Jasa Pengiriman<span>*</span></label> 
+												<select id='js_pengiriman_skull' class='validasi' name='jasa_pengiriman'>
+													{$combo_jasa_pengiriman}
+												</select>
+											</div>
+											<div class="single-input one-half right">
+												<label>Metode Pembayaran<span>*</span></label> 
+												<select id='mtd_pembayaran_skull' class='validasi' name='metode_pembayaran'>
+													{$combo_metode_pembayaran}
+												</select>
+											</div>											
+											<div class="single-input one-half left">
+												<label>NPSN <span>*</span></label> 
+												<input name="npsn" id="npsn" class='validasi' type="text" required="required">
+											</div>
+											<div class="single-input one-half right">
+												<label>&nbsp;</label> 
+												<div class="submit-btn-area">
+													<a id='cek_data_sekolah' href='javascript:void(0);' class="estut-btn active submit">Cek Data</a>
+												</div>
+											</div>
+											<div id='load_form_sekolah'></div>
+										</div>
+									</form>		
+								</div>
+								<div id="umum" class="tab-pane fade">
+									<br/>
+									<form id='frmumu' url="{$host}submit-transaksi" method='post' enctype="multipart/form-data" class="form-inline">
+										<input type='hidden' name='editstatus' value='edi'>
+										<input type='hidden' name='typ' value='umu'>
+										<div class="form-inner" style='min-height:300px !important;'>
+											<div class="single-input one-half left">
+												<label>Jasa Pengiriman<span>*</span></label> 
+												<select id='js_pengiriman_umu' class='validasi' name='jasa_pengiriman'>
+													{$combo_jasa_pengiriman}
+												</select>
+											</div>
+											<div class="single-input one-half right">
+												<label>Metode Pembayaran<span>*</span></label> 
+												<select id='mtd_pembayaran_umu' class='validasi' name='metode_pembayaran'>
+													{$combo_metode_pembayaran}
+												</select>
+											</div>																						
+											<div class="single-input one-half left">
+												<label>Email Anda<span>*</span></label> 
+												<input name="email" id='em' class='validasi' type="text" required="required">
+											</div>
+											<div class="single-input one-half right">
+												<label>&nbsp;</label> 
+												<div class="submit-btn-area">
+													<a id='cek_data_umum' href='javascript:void(0);' class="estut-btn active submit">Cek Data</a>
+												</div>
+											</div>
+											<div id='load_form_umum'></div>
+										</div>
+									</form>										
+								</div>
+							</div>
+						</div>
+					</div>			
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#cek_data_sekolah').on('click', function(){
+		if($('#npsn').val() == ""){
+			alert('NPSN Tidak Boleh Kosong!');
+			return false;
+		}
+		
+		$.post(host+'loading-formcheckout', { 'tpefrm':'skull', 'npp':$('#npsn').val() }, function(e){
+			parsinganss = $.parseJSON(e)
+			$('#load_form_sekolah').html(parsinganss.page);
+		});
+	});
+	///////////zzzzzzfdfa
+	$('#cek_data_umum').on('click', function(){
+		if($('#em').val() == ""){
+			alert('Email Tidak Boleh Kosong!');
+			return false;
+		}
+	
+		$.post(host+'loading-formcheckout', { 'tpefrm':'umu', 'em':$('#em').val() }, function(ex){
+			parsinganssd = $.parseJSON(ex)
+			$('#load_form_umum').html(parsinganssd.page);
+		});
+	});
+</script>

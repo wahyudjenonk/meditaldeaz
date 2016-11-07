@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js sidebar-large lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<html class="no-js sidebar-large"><meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <!-- BEGIN META SECTION -->
+    <meta charset="utf-8">
+    <title>Login BackOffice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="" name="description" />
+    <meta content="themes-lab" name="author" />
+	
+    <link href="{$host}__assets/eb/css/icons/icons.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/plugins.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/style.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/animate-custom.css" rel="stylesheet">
+    <script src="{$host}__assets/eb/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+
+<body class="login fade-in" data-page="login">
+    <!-- BEGIN LOGIN BOX -->
+    <div class="container" id="login-block">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+                <div class="login-box clearfix animated flipInY">
+                    <div class="page-icon animated bounceInDown">
+                        <img src="{$host}__assets/eb/img/account/user-icon.png" alt="Key icon">
+                    </div>
+                    <div class="login-logo">
+                        <a href="#?login-theme-3">
+                            <img src="{$host}__assets/eb/img/account/login-logo.png" alt="Company Logo">
+                        </a>
+                    </div>
+                    <hr>
+                    <div class="login-form">
+                        <!-- BEGIN ERROR BOX -->
+                        <div class="alert alert-danger hide">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>Error!</h4>
+                            Your Error Message goes here
+                        </div>
+                        <!-- END ERROR BOX -->
+                        <form action="{$host}backoffice-masuk" method="post" >
+                            <input type="text" name='user' placeholder="Username" class="input-field form-control user" />
+                            <input type="password" name='pwd' placeholder="Password" class="input-field form-control password" />
+                            <button type="submit" class="btn btn-login">Login</button>
+                        </form>
+						
+					{if isset($error)}
+						<div style="text-align:center;margin-top:30px">
+							<span style="color:red;"><b><i>{$error}</i></b></span>
+						</div>
+					{/if}	
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <script src="{$host}__assets/eb/plugins/jquery-1.11.js"></script>
+    <script src="{$host}__assets/eb/plugins/jquery-migrate-1.2.1.js"></script>
+    <script src="{$host}__assets/eb/plugins/jquery-ui/jquery-ui-1.10.4.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/backstretch/backstretch.min.js"></script>
+    <script src="{$host}__assets/eb/js/account.js"></script>
+</body>
+
+</html>

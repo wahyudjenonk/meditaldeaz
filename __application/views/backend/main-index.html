@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js sidebar-large lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js sidebar-large lt-ie9 lt-ie8"> <![endif]-->
+<html class="no-js sidebar-large">
+<head>
+    <!-- BEGIN META SECTION -->
+    <meta charset="utf-8">
+    <title>AldeaZ BackOffice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="" name="description" />
+    <meta content="themes-lab" name="author" />
+    <!-- END META SECTION -->
+    <!-- BEGIN MANDATORY STYLE -->
+    <link href="{$host}__assets/eb/css/icons/icons.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/plugins.min.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/css/style.min.css" rel="stylesheet">
+    <!-- END  MANDATORY STYLE -->
+    <!-- BEGIN PAGE LEVEL STYLE -->
+    <link href="{$host}__assets/eb/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="{$host}__assets/eb/plugins/metrojs/metrojs.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="{$host}__assets/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" href="{$host}__assets/easyui/themes/icon.css">
+	<link rel="stylesheet" href="{$host}__assets/eb/css/uploadfile.css">
+    <!-- END PAGE LEVEL STYLE -->
+   
+	<script>
+		var host='{$host}';
+	</script>
+</head>
+
+<body data-page="dashboard">
+    <!-- BEGIN TOP MENU -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="menu-medium" class="sidebar-toggle tooltips">
+                    <i class="fa fa-outdent"></i>
+                </a>
+                <a class="navbar-brand" href="index.html">
+                   <img src="{$host}img/logo.png" alt="logo" width="100" height="45">
+                </a>
+            </div>
+            <div class="navbar-center">Aldeaz Sejahtera Printing - Backoffice</div>
+            <div class="navbar-collapse collapse">
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <ul class="nav navbar-nav pull-right header-menu">
+                   
+                    <li class="dropdown" id="user-header">
+                        <a href="#" class="dropdown-toggle c-white" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img src="{$host}__assets/eb/img/avatars/avatar1.png" alt="user avatar" width="30" class="p-r-5">
+                            <span class="username">{$auth.username|upper}</span>
+                            <!--i class="fa fa-angle-down p-r-10"></i-->
+                        </a>
+                        <!--ul class="dropdown-menu">
+                           
+                            <li class="dropdown-footer clearfix">
+							<a href="javascript:;" class="toggle_fullscreen" title="Fullscreen">
+								
+							</a>
+							<a href="{$host}backoffice-keluar" title="Logout">
+								<i class="fa fa-power-off"></i>
+							</a>
+							<a href="javascript:;" class="toggle_fullscreen" title="Fullscreen">
+								
+							</a>
+						</li>
+                        </ul-->
+                    </li>
+					<li><a href="{$host}backoffice-keluar" title="Logout">
+								<i class="fa fa-power-off"></i>
+							</a>
+					</li>
+                    <!-- END USER DROPDOWN -->
+                </ul>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+        </div>
+    </nav>
+    <!-- END TOP MENU -->
+    <!-- BEGIN WRAPPER -->
+    <div id="wrapper">
+        <!-- BEGIN MAIN SIDEBAR -->
+        <nav id="sidebar">
+            <div id="main-menu">
+                <ul class="sidebar-nav">
+                    <li class='current'>
+                        <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-Dashboard','dashboard')"><i class="fa fa-home"></i><span class="sidebar-text">Beranda</span></a>
+                    </li>
+					{if $auth.flag_group neq 'L'}
+                    <li>
+                        <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/produk','tbl_produk')" ><i class="fa fa-book"></i><span class="sidebar-text">Produk</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-check-square-o"></i><span class="sidebar-text">Transaksi</span><span class="fa arrow"></span></a>
+                        <ul class="submenu collapse">
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/invoice','tbl_h_pemesanan')"><span class="sidebar-text">Invoice Order Sekolah</span></a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/invoice_umum','tbl_h_pemesanan')"><span class="sidebar-text">Invoice Order Umum</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/konfirmasi','tbl_konfirmasi')"><span class="sidebar-text">Konfirmasi</span></a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/gudang_konfirmasi','tbl_gudang')"><span class="sidebar-text">Manajemen Order</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/monitor_order','tbl')"><span class="sidebar-text">Monitoring Order</span></a>
+                            </li>
+                        </ul>
+                    </li>					
+                    <!--li>
+                        <a href="#"><i class="fa fa-barcode"></i><span class="sidebar-text">Gudang</span><span class="fa arrow"></span></a>
+                        <ul class="submenu collapse">
+                            
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/gudang_masuk','tbl_gudang')"><span class="sidebar-text">Data Masuk Gudang</span></a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/stok','tbl_stok')"><span class="sidebar-text">Stok Barang</span></a>
+                            </li>
+                        </ul>
+                    </li-->
+					<li>
+                        <a href="#"><i class="glyph-icon flaticon-charts2"></i><span class="sidebar-text">Laporan</span><span class="fa arrow"></span></a>
+                        <ul class="submenu collapse">
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/rekap_penjualan','')"><span class="sidebar-text">Laporan Rekap Penjualan</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/detil_penjualan','')"><span class="sidebar-text">Laporan Detil Penjualan</span></a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/lap_bast','')"><span class="sidebar-text">Laporan Penjualan Per BAST</span></a>
+                            </li>
+							 <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/lap_kwitansi','')"><span class="sidebar-text">Laporan Penjualan Per Kwitansi</span></a>
+                            </li>
+                        </ul>
+                    </li>
+					{else}
+					<li>
+                        <a href="#"><i class="glyph-icon flaticon-charts2"></i><span class="sidebar-text">Laporan</span><span class="fa arrow"></span></a>
+                        <ul class="submenu collapse">
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/rekap_penjualan','')"><span class="sidebar-text">Laporan Rekap Penjualan</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/detil_penjualan','')"><span class="sidebar-text">Laporan Detil Penjualan</span></a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/lap_bast','')"><span class="sidebar-text">Laporan Penjualan Per BAST</span></a>
+                            </li>
+							 <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-laporan/lap_kwitansi','')"><span class="sidebar-text">Laporan Penjualan Per Kwitansi</span></a>
+                            </li>
+                        </ul>
+                    </li>
+					{/if}
+					{if $auth.flag_group neq 'L'}
+                    <li>
+                        <a href="#"><i class="glyph-icon flaticon-panels"></i><span class="sidebar-text">Master</span><span class="fa arrow"></span></a>
+                          <ul class="submenu collapse">
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/member_sekolah','tbl_reg')" >									
+									<span class="sidebar-text">Member Sekolah</span>
+								</a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/member_umum','tbl_reg')" >									
+									<span class="sidebar-text">Member Umum</span>
+								</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/tingkatan','cl_tingkatan')" >									
+									<span class="sidebar-text">Tingkatan Sekolah</span>
+								</a>
+                            </li>
+							{*
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/kelas','cl_kelas')" >									
+									<span class="sidebar-text">Kelas Sekolah</span>
+								</a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/group_sekolah','cl_group_sekolah')" >
+									<span class="sidebar-text">Group Sekolah</span>
+								</a>
+                            </li>
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/edisi','cl_edisi')" >
+									<span class="sidebar-text">Edisi</span>
+								</a>
+                            </li>							
+							*}
+							<li>
+                                <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/kategori','cl_kategori')" >									
+									<span class="sidebar-text">Kategori</span>
+								</a>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/komplain','tbl_komplain')"><i class="glyph-icon flaticon-account"></i><span class="sidebar-text">Komplain</span></a>
+                    </li>
+					{/if}
+					{if $auth.flag_group eq 'A'}
+                    <li>
+                        <a href="javascript:void(0);" onclick="loadUrl(this, '{$host}backoffice-grid/pengguna','admin')"><i class="glyph-icon flaticon-account"></i><span class="sidebar-text">Manajemen User</span></a>
+                          <!--ul class="submenu collapse">
+                            <li>
+                                <a href="profil.html"><span class="sidebar-text">User Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="login.html"><span class="sidebar-text">Data User</span></a>
+                            </li>
+                            <li>
+                                <a href="signup.html"><span class="sidebar-text">Hak Akses</span></a>
+                            </li>
+                        </ul-->
+                    </li>
+					{/if}
+                </ul>
+            </div>
+        </nav>
+        <!-- END MAIN SIDEBAR -->
+
+
+        <!-- BEGIN MAIN CONTENT -->
+        <div id="main-content" class="dashboard">
+			
+		</div>
+        
+		<!-- END MAIN CONTENT -->
+
+    </div>
+    <!-- END WRAPPER -->
+	
+    <script src="{$host}__assets/eb/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+	 <!-- BEGIN MANDATORY SCRIPTS -->
+    <script src="{$host}__assets/eb/plugins/jquery-1.11.js"></script>
+    <script src="{$host}__assets/eb/plugins/jquery-migrate-1.2.1.js"></script>
+    <script src="{$host}__assets/eb/plugins/jquery-ui/jquery-ui-1.10.4.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/bootstrap-dropdown/bootstrap-hover-dropdown.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/bootstrap-select/bootstrap-select.js"></script>
+    <script src="{$host}__assets/eb/plugins/icheck/icheck.js"></script>
+    <script src="{$host}__assets/eb/plugins/mcustom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/mmenu/js/jquery.mmenu.min.all.js"></script>
+    <script src="{$host}__assets/eb/plugins/nprogress/nprogress.js"></script>
+    <script src="{$host}__assets/eb/plugins/charts-sparkline/sparkline.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/breakpoints/breakpoints.js"></script>
+    <script src="{$host}__assets/eb/plugins/numerator/jquery-numerator.js"></script>
+    <!-- END MANDATORY SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{$host}__assets/eb/plugins/metrojs/metrojs.min.js"></script>
+    <script src='{$host}__assets/eb/plugins/fullcalendar/moment.min.js'></script>
+    <script src='{$host}__assets/eb/plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src="{$host}__assets/eb/plugins/simple-weather/jquery.simpleWeather.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/google-maps/markerclusterer.js"></script>
+    <script src="{$host}__assets/eb/plugins/charts-morris/raphael.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/charts-morris/morris.min.js"></script>
+    <script src="{$host}__assets/eb/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+    <script src="{$host}__assets/eb/js/calendar.js"></script>
+    <!--script src="{$host}__assets/eb/js/dashboard.js"></script-->
+    <!-- END  PAGE LEVEL SCRIPTS -->
+    <script src="{$host}__assets/eb/js/application.js"></script>
+	<script src="{$host}__assets/easyui/jquery.easyui.min.js"></script>
+	<script src="{$host}__assets/eb/js/jquery.uploadfile.js"></script>
+	<script src="{$host}__assets/eb/js/fungsi.js"></script>
+	<script src="{$host}__assets/eb/js/highcharts.js"></script>
+	<script src="{$host}__assets/tinymce/tinymce.min.js"></script>
+	<script>
+		loadUrl(this, '{$host}backoffice-Dashboard','dashboard')
+	</script>
+</body>
+
+</html>

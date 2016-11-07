@@ -1,0 +1,178 @@
+{if $type_form eq 'skull'}
+	<div id='form-utm-skull'>	
+		<input type='hidden' name='ckdt' value="{$status_data|default:'TIDAK ADA'}">
+		<div class="single-input one-half left">
+			<label>Nama Sekolah <span>*</span></label> 
+			<input type="text" name="nmseko" class='validasi' value="{$data.nama_sekolah|default:''}">
+		</div>
+		<div class="single-input one-half right">
+			<label>NIP Kepala Sekolah <span>*</span></label> 
+			<input type="text" name="nipkepsek" class='validasi' value="{$data.nip|default:''}">
+		</div>
+		<div class="single-input one-half left">
+			<label>Nama Kepala Sekolah <span>*</span></label> 
+			<input type="text" name="nmkepsek" class='validasi' value="{$data.nama_kepala_sekolah|default:''}" required="required">
+		</div>	
+		<div class="single-input one-half right">
+			<label>Nama Bendahara<span>*</span></label> 
+			<input type="text" name="nmbend" class='validasi' value="{$data.nama_bendahara|default:''}" required="required">
+		</div>
+		<div class="single-input one-half left">
+			<label>No. HP Kepala Sekolah <span>*</span></label> 
+			<input type="text" name="nohpkepsek" class='validasi' value="{$data.no_hp_kepsek|default:''}" required="required">
+		</div>	
+		<div class="single-input one-half right">
+			<label>No. HP Bendahara<span>*</span></label> 
+			<input type="text" name="nohpbend" class='validasi' value="{$data.no_hp_bendahara|default:''}" required="required">
+		</div>		
+		<div class="single-input one-half left">
+			<label>Provinsi<span>*</span></label> 
+			<select id='prv_skull' class='validasi' name='prov'>
+				{$combo_prov}
+			</select>
+		</div>
+		<div class="single-input one-half right">
+			<label>Kabupaten<span>*</span></label> 
+			<select id='kab_skull' class='validasi' name='kab'>
+				{$combo_kab}
+			</select>
+		</div>
+		<div class="single-input one-half left">
+			<label>Kecamatan<span>*</span></label> 
+			<select id='kec_skull' class='validasi' name='kec'>
+				{$combo_kec}
+			</select>
+		</div>
+		<div class="single-input one-half right">
+			<label>Kode Pos<span>*</span></label> 
+			<input type="text" name="kdpos" class='validasi' value="{$data.kode_pos|default:''}" />
+		</div>
+		<div class="single-input one-half left">
+			<label>No. Telp. Sekolah<span>*</span></label> 
+			<input type="text" name="notelp" class='validasi' value="{$data.no_telp_sekolah|default:''}" required="required">
+		</div>
+		<div class="single-input one-half right">
+			<label>Email Sekolah<span>*</span></label> 
+			<input type="text" name="email" class='validasi' value="{$data.email|default:''}" required="required">
+		</div>
+		<div class="single-input">
+			<label>Alamat Pengiriman <span>*</span></label> 
+			<textarea name="almt" class='validasi' class="textarea">{$data.alamat_pengiriman|default:''}</textarea>
+		</div>	
+		<div class="submit-btn-area text-center">
+			<br/>
+			<a id='slesai_belanja' href='javascript:void(0);' class="estut-btn active submit">Selesai Belanja</a>
+		</div>
+	</div>
+	<script>
+		$('#prov_skull').on('change', function(){
+			fillCombo(host+'combo-kab-kota', 'kab_skull', '', $(this).val() );
+		});
+		$('#kab_skull').on('change', function(){
+			fillCombo(host+'combo-kecamatan', 'kec_skull', '', $(this).val() );
+		});
+		
+		/////testetsetse
+		$(".validasi").validatebox({ required:true }); 
+		$('#slesai_belanja').on('click', function(){
+			validasi = $('#frmskul').form('validate');
+			if(validasi){
+				$.blockUI({ message: '<h3>Data Sedang Diproses...</h3>' });			
+			}
+			submit_form('frmskul', function(resp){
+				$.post(host+'finish', { } , function(s){
+					if(s){
+						$.unblockUI();
+					}
+					parsinganxs = $.parseJSON(s)
+					$('#modalencuk').html(parsinganxs.page);			
+					$('#productModal').modal({
+						backdrop: 'static',
+						keyboard: false
+					}); 
+					$('#productModal').modal('show'); 
+					$('#button_close').hide();
+				});
+			});
+		});
+	</script>
+{elseif $type_form eq 'umu'}
+	<div id='form-utm-umu'>	
+		<input type='hidden' name='ckdt' value="{$status_data|default:'TIDAK ADA'}">	
+		<div class="single-input">
+			<label>Nama Anda <span>*</span></label> 
+			<input type="text" class='validasi' value="{$data.nama_lengkap|default:''}" name="nm_cust" >
+		</div>
+		<div class="single-input one-half left">
+			<label>Provinsi<span>*</span></label> 
+			<select id='prv_umu' class='validasi' name='prov'>
+				{$combo_prov}
+			</select>
+		</div>
+		<div class="single-input one-half right">
+			<label>Kabupaten<span>*</span></label> 
+			<select id='kab_umu' class='validasi' name='kab'>
+				{$combo_kab}
+			</select>
+		</div>
+		<div class="single-input one-half left">
+			<label>Kecamatan<span>*</span></label> 
+			<select id='kec_umu' class='validasi' name='kec'>
+				{$combo_kec}
+			</select>
+		</div>
+		<div class="single-input one-half right">
+			<label>Kode Pos<span>*</span></label> 
+			<input type="text" class='validasi' name="kdpos" value="{$data.kode_pos|default:''}" />
+		</div>
+		<div class="single-input one-half left">
+			<label>No. Handphone<span>*</span></label> 
+			<input type="text" class='validasi' value="{$data.no_hp_customer|default:''}" name="nhp" required="required">
+		</div>
+		<div class="single-input one-half right">
+			<label>No. Telp.<span></span></label> 
+			<input type="text" name="ntlp" value="{$data.no_telp_customer|default:''}">
+		</div>
+		<div class="single-input">
+			<label>Alamat Pengiriman <span>*</span></label> 
+			<textarea name="pngrmn" class='validasi' class="textarea">{$data.alamat_pengiriman|default:''}</textarea>
+		</div>	
+		<div class="submit-btn-area text-center">
+			<br/>
+			<a id='slesai_belanja_umu' href='javascript:void(0);' class="estut-btn active submit">Selesai Belanja</a>
+		</div>
+	</div>	
+	<script>
+		$('#prov_umu').on('change', function(){
+			fillCombo(host+'combo-kab-kota', 'kab_umu', '', $(this).val() );
+		});
+		$('#kab_umu').on('change', function(){
+			fillCombo(host+'combo-kecamatan', 'kec_umu', '', $(this).val() );
+		});
+		
+		/////testetsetse
+		
+		$(".validasi").validatebox({ required:true }); 
+		$('#slesai_belanja_umu').on('click', function(){
+			validasi = $('#frmumu').form('validate');
+			if(validasi){
+				$.blockUI({ message: '<h3>Data Sedang Diproses...</h3>' });			
+			}
+			submit_form('frmumu', function(resp){
+				$.post(host+'finish', { } , function(s){
+					if(s){
+						$.unblockUI();
+					}					
+					parsinganxs = $.parseJSON(s)
+					$('#modalencuk').html(parsinganxs.page);			
+					$('#productModal').modal({
+						backdrop: 'static',
+						keyboard: false
+					}); 
+					$('#productModal').modal('show'); 
+					$('#button_close').hide();
+				});
+			});
+		});
+	</script>
+{/if}

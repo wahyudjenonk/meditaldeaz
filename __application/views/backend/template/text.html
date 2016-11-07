@@ -1,0 +1,21 @@
+<div class="form-group {$kelas_div|default:''}" style="{$style_div|default:''}">
+	<label class="col-sm-2 control-label">{$label|default:''}</label>
+		<div class="col-sm-{$lebar|default:8}">
+			{if $type eq 'text'}
+				<input type="text" class="form-control {$class|default:''}" name="{$name|default:''}" id="{$id_na|default:''}{$acak}" value="{$value|default:''}" style="{$style|default:''}" >
+			{else if $type eq 'textarea'}
+				<textarea name="{$name|default:''}" class="form-control {$class|default:''}" id="{$id_na|default:''}{$acak}" style="height:{$tinggi|default:'100px;'}">{$value|default:''}</textarea>
+			{else if $type eq 'pwd'}
+				<input type="password" class="form-control {$class|default:''}" name="{$name|default:''}" id="{$id_na|default:''}{$acak}" value="{$value|default:''}" >\
+			{else if $type eq 'select'}
+				<select name="{$name|default:''}" id="{$id_na|default:''}{$acak}" class="form-control validasi" >
+				<option value="">-- Pilih --</option>
+				{foreach from=$data_combo|default:"" item=i}
+					<option value="{$i.id}" {if $id_combo|default:"" eq $i.id}selected{/if}>{$i.text}</option>
+				{/foreach}
+				</select>
+			{/if}
+		</div>
+</div>
+
+	

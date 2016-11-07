@@ -1,0 +1,32 @@
+<div class="product-info" style="width:100% !important; margin-left:-20px !important;">
+	<div class="price-box-3">
+			<h3>Pilih Provinsi Anda Saat Ini</h3>
+			<hr>
+	</div>
+	<div class="" style='display:inline !important;'>
+		<select id='combo_zona_sess' style='padding:5px;'>
+			{$combo_zona}
+		</select>
+		<hr>
+		<div class="action-cart">
+			<a id='selesai_pilih_zona' class="checkout" href="javascript:void(0);">Lanjut Belanja</a>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	$('#selesai_pilih_zona').on('click', function(){
+		if($('#combo_zona_sess').val() == ""){
+			alert('Provinsi Tidak Boleh Kosong!');
+			return false;
+		}
+		
+		$.post(host+'pilih-zona', { 'kdprv':$('#combo_zona_sess').val() }, function(rpo) {
+			if(rpo == 1){
+				$('#button_close').show();
+				location.reload();
+			}
+		});
+	});
+</script>
