@@ -152,8 +152,13 @@
 		}
 	
 		$.post(host+'loading-formcheckout', { 'tpefrm':'umu', 'em':$('#em').val() }, function(ex){
-			parsinganssd = $.parseJSON(ex)
-			$('#load_form_umum').html(parsinganssd.page);
+			if(ex == 2){
+				$('#modalencuk').html("Email Sudah Terdaftar Oleh User Lain!! Silahkan Coba Dengan Email Lainnya.");			
+				$('#productModal').modal('show'); 
+			}else{
+				parsinganssd = $.parseJSON(ex)
+				$('#load_form_umum').html(parsinganssd.page);
+			}
 		});
 	});
 </script>

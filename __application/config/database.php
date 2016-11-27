@@ -94,3 +94,19 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+$db['marketing']['hostname'] = 'localhost';
+$db['marketing']['username'] = 'root';
+$db['marketing']['password'] = '';
+$db['marketing']['database'] = 'aldeaz_marketing';
+$db['marketing']['dbdriver'] = 'mysql';
+$db['marketing']['dbprefix'] = '';
+$db['marketing']['pconnect'] = TRUE;
+$db['marketing']['db_debug'] = TRUE;
+$db['marketing']['cache_on'] = FALSE;
+$db['marketing']['cachedir'] = '';
+$db['marketing']['char_set'] = 'utf8';
+$db['marketing']['dbcollat'] = 'utf8_general_ci';
+$db['marketing']['swap_pre'] = '';
+$db['marketing']['autoinit'] = TRUE;
+$db['marketing']['stricton'] = FALSE;
