@@ -114,6 +114,10 @@ class Backend extends JINGGA_Controller {
 			$sts=$this->input->post('editstatus');
 			$this->nsmarty->assign('sts',$sts);
 			switch($mod){
+				case "invoice_edit":
+					$data=$this->mbackend->getdata('detil_invoice','row_array');
+					$this->nsmarty->assign('data',$data);
+				break;				
 				case "pengguna":
 					if($sts=='edit'){
 						$data=$this->mbackend->getdata('admin','row_array');
@@ -318,14 +322,39 @@ class Backend extends JINGGA_Controller {
 	
 	function cetak(){
 		$mod=$this->input->post('mod');
+		$param="";
 			switch($mod){
+				case "rekap_penjualan_SEKOLAH":
+				case "rekap_penjualan_UMUM":
+				case "detil_penjualan_SEKOLAH":
+				case "detil_penjualan_UMUM":
+				case "lap_bast_SEKOLAH":
+				case "lap_bast_UMUM":
+				case "lap_kwitansi_SEKOLAH":
+				case "lap_kwitansi_UMUM":
+					$judul=strtoupper(str_replace('_',' ',$mod));
+					$data=$this->mbackend->getdata('get_lap_rekap','result_array');
+					$file_name="Laporan";
+				break;
+				
+				case "invoice":
+				case "invoice_umum":
+				case "konfirmasi":
+				case "gudang_konfirmasi":
+					$judul="INVOICE";
+					$data=$this->mbackend->getdata('get_pemesanan','result_array');
+					$file_name=$data['header']['no_order'];
+				break;
 				case "cetak_bast":
 					$data=$this->mbackend->getdata('get_bast');
-					$tgl=$this->konversi_tgl(date('Y-m-d'));
-					$file_name=$data['header']['konfirmasi_no'];
-					$this->hasil_output('pdf',$mod,$data,$file_name,'BERITA ACARA SERAH TERIMA BUKU',$data['header']['konfirmasi_no'],$tgl);
+					$param=$this->konversi_tgl(date('Y-m-d'));
+					$file_name=$data['header']['no_bast'];
+					$judul="BERITA ACARA SERAH TERIMA BUKU";
+					$nomor=$data['header']['konfirmasi_no'];
+					//$file_name=$nomor;
 				break;
 			}
+			$this->hasil_output('pdf',$mod,$data,$file_name,$judul,$nomor,$param);
 	}
 	function hasil_output($p1,$mod,$data,$file_name,$judul_header,$nomor="",$param=""){
 		switch($p1){
@@ -419,6 +448,14 @@ class Backend extends JINGGA_Controller {
 	function set_flag(){
 		$mod=$this->input->post('mod');
 		switch($mod){
+			case "tbl_d_pemesanan":
+				$sts='edit';
+				$data=array('id'=>$this->input->post('id'),
+							'flag'=>$this->input->post('flag')
+				);
+				echo $this->mbackend->simpandata('tbl_d_pemesanan',$data,$sts);
+				exit;
+			break;			
 			case "kirim_gudang":
 				$sts='add';
 				$data_konfirmasi=$this->mbackend->getdata('get_bast');
@@ -504,4 +541,18 @@ class Backend extends JINGGA_Controller {
 		}
 		echo json_encode($chart);
 	}
+
+	function get_pesan(){
+		$temp=$this->temp.'template/pesan.html';
+		$data=array();
+		$data_na=$this->mbackend->getdata('pesan','result_array');
+		//print_r($data_na);exit;
+		$this->nsmarty->assign('data',$data_na);
+		$data['html']=$this->nsmarty->fetch($temp);
+		$data['jml']=count($data_na);
+		echo json_encode($data);
+		
+	}
+
+
 }

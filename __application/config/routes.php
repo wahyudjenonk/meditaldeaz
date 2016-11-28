@@ -20,6 +20,8 @@ $route['backoffice-SetFlag'] = 'backend/set_flag';
 $route['backoffice-Dashboard'] = 'backend/get_konten';
 $route['backoffice-GetDataChart'] = 'backend/get_chart';
 $route['backoffice-laporan/(:any)'] = 'backend/get_form/$1';
+$route['Backoffice-Pesan'] = 'backend/get_pesan';
+
 
 
 /* Routes Front End Routes */

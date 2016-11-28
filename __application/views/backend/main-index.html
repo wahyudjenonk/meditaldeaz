@@ -52,8 +52,26 @@
             <div class="navbar-collapse collapse">
                 <!-- BEGIN TOP NAVIGATION MENU -->
                 <ul class="nav navbar-nav pull-right header-menu">
-                   
-                    <li class="dropdown" id="user-header">
+                    <li class="dropdown" id="messages-header">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <i class="glyph-icon flaticon-email"></i>
+                            <span class="badge badge-primary badge-header" id="jml_pesan"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header clearfix">
+                                <p class="pull-left">
+                                    Data Invoice Baru
+                                </p>
+                            </li>
+                            <li class="dropdown-body">
+                                <ul class="dropdown-menu-list withScroll" data-height="220" id="pesan_main">
+                                    
+                                </ul>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="user-header">                        
                         <a href="#" class="dropdown-toggle c-white" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <img src="{$host}__assets/eb/img/avatars/avatar1.png" alt="user avatar" width="30" class="p-r-5">
                             <span class="username">{$auth.username|upper}</span>
@@ -280,7 +298,9 @@
 	<script src="{$host}__assets/eb/js/highcharts.js"></script>
 	<script src="{$host}__assets/tinymce/tinymce.min.js"></script>
 	<script>
-		loadUrl(this, '{$host}backoffice-Dashboard','dashboard')
+        loadUrl(this, '{$host}backoffice-Dashboard','dashboard');
+        get_pesan;
+        setInterval(get_pesan,15000);
 	</script>
 </body>
 

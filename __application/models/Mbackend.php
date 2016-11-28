@@ -12,6 +12,30 @@ class Mbackend extends CI_Model{
 				$where .=" AND ".$this->input->post('kat')." like '%".$this->db->escape_str($this->input->post('key'))."%'";
 		}
 		switch($type){
+			case "pesan":
+				$sql="SELECT A.*,B.jenis_pembeli,
+						CASE 
+							WHEN B.jenis_pembeli = 'SEKOLAH' THEN B.nama_sekolah
+							ELSE B.nama_lengkap
+						END AS nama
+						FROM tbl_h_pemesanan A 
+						LEFT JOIN tbl_registrasi B ON A.tbl_registrasi_id=B.id
+						WHERE (A.flag_read <> 'F' OR A.flag_read IS NULL)";
+				//echo $sql;
+			break;
+			case "detil_invoice":
+				$data=array();
+				$sql="SELECT A.*,B.zona 
+						FROM tbl_d_pemesanan A
+						LEFT JOIN tbl_h_pemesanan B ON A.tbl_h_pemesanan_id=B.id 
+						WHERE A.id=".$this->input->post('id');
+				$data['detil']=$this->db->query($sql)->row_array();
+				$sql="SELECT A.*,A.harga_zona_".$data['detil']['zona']." as harga,A.judul_produk as text 
+						FROM tbl_produk A ";
+				$data['buku']=$this->db->query($sql)->result_array();
+				return $data;
+				
+			break;			
 			case "tbl_komplain":
 				$sql="SELECT A.*,B.no_order 
 					  FROM tbl_komplain A 

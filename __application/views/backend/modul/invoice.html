@@ -48,6 +48,11 @@
 						<th style="text-align:right;">Harga (Sesuai Zona {$data.header.zona})</th>
 						<th style="text-align:right;">Jumlah/Qty</th>
 						<th style="text-align:right;">Total</th>
+						{if $mod eq 'invoice' || $mod eq 'invoice_umum'}
+						{if $data.header.flag_ver|default:'P' eq 'P'}
+							<th style="text-align:center;">Editing</th>
+						{/if}
+						{/if}
 					</tr>
 					</thead>
 					<tbody>
@@ -64,6 +69,32 @@
 						<td align="right">Rp. {$i.harga|number_format:2:',':'.'|default:'-'}</th>
 						<td align="right">{$i.qty|number_format:2:',':'.'|default:'-'}</td>
 						<td align="right">Rp.{$i.total|number_format:2:',':'.'|default:'-'}</td>
+						{if $mod eq 'invoice' || $mod eq 'invoice_umum'}
+						
+						{if $data.header.flag_ver|default:'P' eq 'P'}
+						{if $i.flag neq 'C'}
+							<td style="text-align:center;">
+								<div class="skin skin-minimal">
+									<div class="btn-group">
+								<a href="javascript:void(0);" class="btn btn-sm btn-success" title="Edit" onclick="get_detil('invoice_edit',{$i.id})">
+									<img src="{$host}__assets/easyui/themes/icons/pencil.png">
+								</a>
+								<a href="javascript:void(0);" class="btn btn-sm btn-success batalkan_{$acak}" title="Batal" data="{$i.id}" >
+									<img src="{$host}__assets/easyui/themes/icons/no.png">
+								</a>
+								<a href="javascript:void(0);" class="btn btn-sm btn-success hapuskan_{$acak}" title="Hapus" data="{$i.id}"> 
+									<img src="{$host}__assets/easyui/themes/icons/edit_remove.png">
+								</a>
+									</div>
+								</div>
+							</td>
+						{else}
+							<td style="text-align:center;">Data Ini Dibatalkan</td>
+						{/if}
+						
+						{/if}
+						{/if}
+
 					</tr>
 					{/foreach}
 					</tbody>
@@ -90,15 +121,66 @@
 			</div>
 		<div class="col-sm-8 col-sm-offset-3" style="margin-top:10px;">
 			<div class="pull-right">
+				{include file="backend/template/button.html" text="Cetak" style_btn="btn-default" id_na="cetak" }
 				{include file="backend/template/button.html" text="Kembali Ke Grid" style_btn="btn-default" id_na="batal" }
+				{if $mod eq 'invoice' || $mod eq 'invoice_umum'}
+				{if $data.header.flag_ver|default:'P' eq 'P'}
+				{include file="backend/template/button.html" text="Verifikasi" style_btn="btn-default" id_na="ver" }
+				{/if}
+				{/if}
 			</div>
 		</div>
 	</div>
 	
 </div>
 <script>
+$('#cetak_{$acak}').bind('click',function(){
+	var param_na={};
+	param_na['mod']='{$mod}';
+	param_na['id']={$data.header.id|default:0};
+	openWindowWithPost(host+'backoffice-Cetak',param_na);
+});
 $('#batal_{$acak}').bind('click',function(){
 	$('#grid_nya_{$mod}').show();
 	$('#detil_nya_{$mod}').hide();
+});
+$('#ver_{$acak}').bind('click',function(){
+	var id_na={$data.header.id|default:'-'};
+	$.messager.confirm('Aldeaz','Apakah Yakin Data Sudah Valid?',function(re){
+		if(re){
+			$.post('{$host}backend/simpandata/tbl_h_pemesanan',{ editstatus:'edit',id:id_na,flag_ver:'F' },function(r){
+				if(r==1){
+					$.messager.alert('Aldeaz',"Data Sudah Terverifikasi",'info');
+					$('#batal_{$acak}').trigger('click');
+				}
+			});
+		}
+	});
+});
+$('.batalkan_{$acak}').bind('click',function(){
+	var id_na=$(this).attr('data');
+	$.messager.confirm('Aldeaz','Apakah Ingin Membatalkan Detil Invoice Ini?',function(re){
+		if(re){
+			$.post('{$host}backend/set_flag',{ mod:'tbl_d_pemesanan',flag:'C',id:id_na },function(r){
+				if(r==1){
+					$.messager.alert('Aldeaz',"Data Detil Invoice Sudah DiBatalkan",'info');
+					get_detil("invoice",{$data.header.id|default:0});
+				}
+			});
+		}
+	});
+});
+$('.hapuskan_{$acak}').bind('click',function(){
+	var id_na=$(this).attr('data');
+	$.messager.confirm('Aldeaz','Apakah Ingin Menghapus Detil Invoice Ini?',function(re){
+		if(re){
+			$.post('{$host}backend/simpandata',{ mod:'tbl_d_pemesanan',editstatus:'delete',id:id_na },function(r){
+				if(r==1){
+					$.messager.alert('Aldeaz',"Data Detil Invoice Sudah Dihapus",'info');
+					get_detil("invoice",{$data.header.id|default:0});
+				}
+			});
+		}
+	});
 });
 </script>

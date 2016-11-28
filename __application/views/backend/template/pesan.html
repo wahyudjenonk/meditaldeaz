@@ -1,0 +1,27 @@
+{if !empty($data)}
+{foreach from=$data item=i}
+<li class="clearfix inv_baru" data='{$i.id}' jns="{$i.jenis_pembeli}">
+    <div class="clearfix">
+        <div>
+            <strong>No. Invoice : {$i.no_order}</strong> 
+        </div>
+        <p>Nama Pembeli/Sekolah : {$i.nama}</p>
+    </div>
+</li>
+{/foreach}
+{/if}
+
+<script>
+$('.inv_baru').bind('click',function(){
+	var jns=$(this).attr('jns');
+	var id=$(this).attr('data');
+	$.post(host+'backend/simpandata/tbl_h_pemesanan',{ editstatus:'edit',id:id,flag_read:'F' },function(r){
+		if(r==1){
+			if(jns=='SEKOLAH')loadUrl(this, '{$host}backoffice-grid/invoice','tbl_h_pemesanan')
+			else loadUrl(this, '{$host}backoffice-grid/invoice_umum','tbl_h_pemesanan')
+			get_pesan();
+		}
+	});
+	
+});
+</script>

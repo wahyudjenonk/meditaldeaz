@@ -1,0 +1,90 @@
+<div class="row" style="width:98%;margin-left:10px;">
+    <div class="col-md-12" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>FORM EDIT</strong> Data Detil Invoice</h3>
+            </div>
+		<div class="panel-body">
+				<div class="row" style="width:100%">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form  parsley-validate id="form_input_{$acak}" method="post" class="form-horizontal" url="{$host}backoffice-simpan/tbl_d_pemesanan/{$sts|default:'add'}">
+							<input type="hidden" name="id" id="id_{$acak}" value="{$data.detil.id|default:''}">
+							<div class="form-group " style="">
+								<label class="col-sm-2 control-label">Harga</label>
+									<div class="col-sm-8">
+									<select id="tbl_buku_id_{$acak}" name="tbl_produk_id" class="form-control validasi">
+										{foreach from=$data.buku item=i}
+										<option value="{$i.id}" harga="{$i.harga}" {if $data.detil.tbl_buku_id|default:"" eq $i.id}selected{/if}>{$i.text}</option>
+										{/foreach}
+									</select>
+									
+									
+									</div>
+							</div>
+							<div class="form-group " style="">
+								<label class="col-sm-2 control-label">Harga</label>
+									<div class="col-sm-8" style="margin-top:7px;font-weight:bold;">
+										Rp.&nbsp;<span id="harga_{$acak}" >{$data.detil.harga|number_format:0:',':'.'}</span>
+										<input type="hidden" name="harga" id="harga_na{$acak}" value="{$data.detil.harga|default:''}">
+									</div>
+							</div>
+							{include file="backend/template/text.html" label="Qty/Jumlah" style="width:20%;height:25px;" type="text" name="qty" id_na="qty" class="validasi angka" value=$data.detil.qty|default:''}
+							<div class="form-group " style="">
+								<label class="col-sm-2 control-label">SubTotal</label>
+									<div class="col-sm-8" style="margin-top:7px;font-weight:bold;">
+										Rp.&nbsp;<span id="subtotal_{$acak}">{$data.detil.subtotal|number_format:0:',':'.'}</span>
+										<input type="hidden" name="subtotal" id="subtotal_na{$acak}" value="{$data.detil.subtotal|default:''}">
+									</div>
+							</div>
+							<div class="col-sm-7 col-sm-offset-3">
+								<div class="pull-right">
+									{include file="backend/template/button.html" text="Simpan" id_na="simpan"}
+									{include file="backend/template/button.html" text="Batal" style_btn="btn-default" id_na="batal" }
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var upl_vid=0;
+	//gen_editor('#deskripsi{$acak}');
+	$(".validasi").validatebox({ required:true }); 
+	$(".angka").numberbox({ required:true,
+				onChange:function(){ 
+					var total;
+					total=parseFloat($('#harga_na{$acak}').val()) * parseInt($(this).val());
+					$('#subtotal_na{$acak}').val(total);
+					$('#subtotal_{$acak}').html(NumberFormat(total));
+				} 
+	}); 
+	$('#tbl_buku_id_{$acak}').change(function(){
+		var total;
+		$('#harga_{$acak}').html(NumberFormat($('option:selected', this).attr('harga')));
+		$('#harga_na{$acak}').val($('option:selected', this).attr('harga'));
+		total=parseFloat($('option:selected', this).attr('harga')) * parseInt($('#qty{$acak}').val());
+		$('#subtotal_na{$acak}').val(total);
+		$('#subtotal_{$acak}').html(NumberFormat(total));
+	});
+	
+	$('#batal_{$acak}').bind('click',function(){
+		closeWindow();
+	});
+	$('#simpan_{$acak}').bind('click',function(){	
+		//tinyMCE.get("deskripsi{$acak}").save();
+		
+		submit_form('form_input_{$acak}',function(r){
+			if(r==1){
+				$.messager.alert('Aldeaz',"Ubah Data Invoice Detil Berhasil",'info');
+				get_detil("invoice",{$data.detil.tbl_h_pemesanan_id});
+				closeWindow();
+			}else{
+				$.messager.alert('Aldeaz',"Gagal",'error');
+			}
+		});
+		
+	});
+</script>
