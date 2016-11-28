@@ -1679,6 +1679,11 @@ function simpan_form(id_form,id_cancel,msg){
 }
 function get_detil(mod,id_data){
 	switch(mod){
+		case "invoice_edit":
+			$.post(host+'backoffice-form/invoice_edit',{mod:mod,id:id_data,editstatus:'edit'},function(r){
+				windowForm(r,'Detil Invoice',700,400);
+			});
+		break;		
 		case "cetak_bast":
 			openWindowWithPost(host+'backoffice-Cetak',{mod:mod,id:id_data});
 			//openWindowWithPost(host+'backoffice-Cetak',{mod:mod,id:id_data});
@@ -1846,4 +1851,12 @@ function chart_na(id_selector,type,title,subtitle,title_y,data_x,data_y,satuan){
 			});
 		break;
 	}
+}
+
+function get_pesan(){
+	$.get(host+'Backoffice-Pesan',function(r){
+		var js=JSON.parse(r);
+		$('#pesan_main').html(js.html);
+		$('#jml_pesan').html(js.jml);
+	});
 }
